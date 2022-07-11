@@ -10,7 +10,17 @@
       "ProjectGuid": "c5f80730-f44f-4478-bdae-6634efc2ca88",
       "DisplayName": "bciWheelchair",
       "ColorIndex": 0
+    },
+    "95765e41-56b7-4519-adb3-c87d2794668a": {
+      "ProjectGuid": "95765e41-56b7-4519-adb3-c87d2794668a",
+      "DisplayName": "discreteWheelchairController",
+      "ColorIndex": 1
+    },
+    "9fec0988-802b-464a-9bf1-3baccd9f2c24": {
+      "ProjectGuid": "9fec0988-802b-464a-9bf1-3baccd9f2c24",
+      "DisplayName": "analogWheelchairController",
+      "ColorIndex": 2
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 3
 }
