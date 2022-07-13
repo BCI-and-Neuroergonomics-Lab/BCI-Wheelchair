@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\analogWheelchairController",
+    "\\discreteWheelchairController"
   ],
-  "SelectedNode": "\\discreteWheelchairController",
+  "SelectedNode": "\\discreteWheelchairController\\discreteWheelchairController.ino",
   "PreviewInSolutionExplorer": false
 }
