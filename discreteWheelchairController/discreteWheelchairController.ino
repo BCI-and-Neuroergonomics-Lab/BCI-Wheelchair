@@ -10,7 +10,7 @@ int profile = 6;
 
 int charPointer = 0;
 
-char buffer[10] = "";
+char inputBuffer[10] = "";
 
 Adafruit_LSM303DLH_Mag_Unified mag = Adafruit_LSM303DLH_Mag_Unified(12345);
 
@@ -47,27 +47,26 @@ void readCommand() {
 	// Reads serial commands if active
 	if (Serial.available())
 	{
-		char incoming = Serial.read();
-		switch (incoming)
+		char input = Serial.read();
+		switch (input)
 		{
-
 		default:
 			if (charPointer < 10)
 			{
 				// Add the character to the buffer and increment the pointer
-				buffer[charPointer++] = incoming;
-				buffer[charPointer] = 0;
+				inputBuffer[charPointer++] = input;
+				inputBuffer[charPointer] = 0;
 				// Don't forget to terminate the string
 			}
 			else {
-				buffer[0] = 0;
+				inputBuffer[0] = 0;
 				charPointer = 0;
 			}
 			break;
 		case 'S':
 			// Resets pins
 			resetPins();
-			buffer[0] = 0;
+			inputBuffer[0] = 0;
 			//Clears string and sets buffer pointer to start
 			charPointer = 0;
 			break;
@@ -78,41 +77,41 @@ void readCommand() {
 			delay(200);
 			digitalWrite(profile, HIGH);
 			//Clears string and sets buffer pointer to start
-			buffer[0] = 0;
+			inputBuffer[0] = 0;
 			charPointer = 0;
 			break;
 		case 'C':
 			// Clears string input.
 			//Clears string and sets buffer pointer to start
-			buffer[0] = 0;
+			inputBuffer[0] = 0;
 			charPointer = 0;
 			break;
 		case 'h':
 			Serial.print("Current heading: ");
 			Serial.println(getHeading());
 			//Clears string and sets buffer pointer to start
-			buffer[0] = 0;
+			inputBuffer[0] = 0;
 			charPointer = 0;
 			break;
 		case 'm':
 			//Wheel chair moves forward for specified seconds
-			translateTime(atoi(buffer));
+			translateTime(atoi(inputBuffer));
 			//Clears string and sets buffer pointer to start
-			buffer[0] = 0;
+			inputBuffer[0] = 0;
 			charPointer = 0;
 			break;
 		case 'r':
 			//Wheel chair rotates for specified seconds.
-			rotateTime(atoi(buffer));
+			rotateTime(atoi(inputBuffer));
 			//Clears string and sets buffer pointer to start
-			buffer[0] = 0;
+			inputBuffer[0] = 0;
 			charPointer = 0;
 			break;
 		case 'R':
 			//Rotates wheelchair by specified angle
-			rotateAngle(atoi(buffer));
+			rotateAngle(atoi(inputBuffer));
 			//Clears string and sets buffer pointer to start
-			buffer[0] = 0;
+			inputBuffer[0] = 0;
 			charPointer = 0;
 			break;
 		}
