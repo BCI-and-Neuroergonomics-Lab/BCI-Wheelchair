@@ -27,15 +27,15 @@ void loop()
         // sets the value (range from 0 to 255):
         analogWrite(ledPin, fadeValue);
         // wait for 30 milliseconds to see the dimming effect
-        delay(30);
+        delay(250);
     }
-
+    delay(3000);
     // fade out from max to min in increments of 5 points:
     for (int fadeValue = 255; fadeValue >= 0; fadeValue -= 5) {
         // sets the value (range from 0 to 255):
         analogWrite(ledPin, fadeValue);
         // wait for 30 milliseconds to see the dimming effect
-        delay(30);
+        delay(250);
     }
-
+    delay(3000);
 }
