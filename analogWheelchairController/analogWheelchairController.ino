@@ -1,11 +1,3 @@
-// Visual Micro is in vMicro>General>Tutorial Mode
-// 
-/*
-    Name:       analogWheelchairController.ino
-    Created:	7/11/2022 5:08:51 PM
-    Author:     DESKTOP-NR8I9HM\atpark
-*/
-
 // Define User Types below here or use a .h file
 //
 
@@ -20,7 +12,9 @@
 // The setup() function runs once each time the micro-controller starts
 void setup()
 {
-
+	// Set up serial connection to read commands from BCI application/.
+	Serial.begin(115200);
+	Serial.println("BCI wheelchair controller connected");
 
 }
 
