@@ -31,7 +31,7 @@ void setup() {
 	if (mag.begin()) {
 		//Enables auto gain of magnetometer
 		mag.enableAutoRange(true);
-		Serial.println("LSM303 Magnetometer started.");
+		Serial.println("LSM303 Magnetometer initialization completed.");
 	}
 	else {
 		Serial.println("LSM303 Magetometer initilization failed.");
@@ -146,9 +146,17 @@ float getHeading() {
 	// Calculate the angle of the vector y,x
 	float heading = atan2(event.magnetic.y, event.magnetic.x) * (360 / tau);
 
-	heading += 180;
+	constrainAngle(heading);
 
 	return heading;
+}
+
+float constrainAngle(float angle) {
+	angle = fmod(angle, 360);
+	if (angle < 0)
+		angle += 360;
+	return angle;
+
 }
 
 void translateTime(int time) {
@@ -176,7 +184,7 @@ void translateTime(int time) {
 	Serial.print(time);
 	Serial.println(" milliseconds.");
 
-	/* Move forward or backwards */
+
 	digitalWrite(pin, LOW);
 	delay(time);
 	digitalWrite(pin, HIGH);
@@ -210,6 +218,7 @@ void rotateTime(int time) {
 	delay(time);
 	digitalWrite(pin, HIGH);
 }
+float current;
 
 void rotateAngle(float dTheta) {
 	int pin;
@@ -225,20 +234,18 @@ void rotateAngle(float dTheta) {
 
 	Serial.println(initial);
 
-	float target = initial - dTheta;
+	float target = initial + dTheta;
 
-	Serial.println(target);
-
-	if (target > 360) {
+	if (target >= 360)
 		target -= 360;
-	}
-	float current;
+	
 	Serial.println(target);
+
 	while (1) {
 		current = getHeading();
 		digitalWrite(pin, LOW);
 		Serial.print(current); Serial.print(" ");
-		if (current > (target - 2.5) && current < (target + 2.5)) {
+		if (current > (target - 1) && current < (target + 1)) {
 			Serial.println("Rotation Completed");
 			Serial.println(current);
 			break;

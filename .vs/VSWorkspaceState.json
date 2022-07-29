@@ -1,9 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\analogWheelchairController",
-    "\\discreteWheelchairController"
+    ""
   ],
-  "SelectedNode": "\\discreteWheelchairController\\discreteWheelchairController.ino",
+  "SelectedNode": "\\BCI-Wheelchair.sln",
   "PreviewInSolutionExplorer": false
 }

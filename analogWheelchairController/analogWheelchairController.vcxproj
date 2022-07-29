@@ -110,7 +110,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties config.Debug.customdebug_arduino_due_x_dbg_debugger_type="universal" config.Debug.customdebug_uno_debugger_type="universal" />
+      <UserProperties arduino.upload.port="COM3" config.Debug.customdebug_arduino_due_x_dbg_debugger_type="universal" config.Debug.customdebug_uno_debugger_type="universal" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

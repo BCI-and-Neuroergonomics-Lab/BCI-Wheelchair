@@ -20,7 +20,12 @@
       "ProjectGuid": "9fec0988-802b-464a-9bf1-3baccd9f2c24",
       "DisplayName": "analogWheelchairController",
       "ColorIndex": 2
+    },
+    "f4559d6d-1389-4403-8793-34a2626e2576": {
+      "ProjectGuid": "f4559d6d-1389-4403-8793-34a2626e2576",
+      "DisplayName": "ultrasonicIPSSlave",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 4
 }
