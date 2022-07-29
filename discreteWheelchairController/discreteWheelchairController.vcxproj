@@ -97,7 +97,6 @@
     <ProjectCapability Include="VisualMicro" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ultrasonicIPS\ultrasonicIPS.vcxproj" />
     <None Include="discreteWheelchairController.ino" />
   </ItemGroup>
   <ItemGroup>

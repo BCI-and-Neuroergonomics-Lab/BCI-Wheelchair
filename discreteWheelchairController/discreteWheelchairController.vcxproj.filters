@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="discreteWheelchairController.ino" />
-    <None Include="..\ultrasonicIPS\ultrasonicIPS.vcxproj" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.discreteWheelchairController.vsarduino.h">

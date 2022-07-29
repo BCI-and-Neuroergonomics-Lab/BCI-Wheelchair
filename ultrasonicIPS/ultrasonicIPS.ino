@@ -1,39 +1,61 @@
-// ---------------------------------------------------------------- //
-// Arduino Ultrasoninc Sensor HC-SR04
-// Re-writed by Arbi Abdul Jabbaar
-// Using Arduino IDE 1.8.7
-// Using HC-SR04 Module
-// Tested on 17 September 2019
-// ---------------------------------------------------------------- //
+int sampleCount = 0;
+long t, t0;
+const int sampleLength = 500;
 
-#define echoPin 3 // attach pin D2 Arduino to pin Echo of HC-SR04
-#define trigPin 2 //attach pin D3 Arduino to pin Trig of HC-SR04
+void setup()
+{
+	//Look on my works, ye mighty, and despair.
+	Serial.begin(115200);
 
-// defines variables
-long duration; // variable for the duration of sound wave travel
-int distance; // variable for the distance measurement
+	DIDR0 = 0x01;
+	ADCSRA = 0;
+	ADCSRB = 0;
+	ADMUX |= (0 & 0x07);
+	ADMUX |= (1 << REFS0);
+	ADMUX |= (1 << ADLAR);
 
-void setup() {
-	pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
-	pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
-	Serial.begin(9600); // // Serial Communication is starting with 9600 of baudrate speed
-	Serial.println("Ultrasonic Sensor HC-SR04 Test"); // print some text in Serial Monitor
-	Serial.println("with Arduino UNO R3");
+
+	//ADCSRA |= (1 << ADPS2) | (1 << ADPS0);    
+	ADCSRA |= (1 << ADPS2);
+	//ADCSRA |= (1 << ADPS1) | (1 << ADPS0);    
+
+	ADCSRA |= (1 << ADATE);
+	ADCSRA |= (1 << ADIE);
+	ADCSRA |= (1 << ADEN);
+	ADCSRA |= (1 << ADSC);
+
+	t0 = micros();
 }
-void loop() {
-	// Clears the trigPin condition
-	digitalWrite(trigPin, LOW);
-	delayMicroseconds(2);
-	// Sets the trigPin HIGH (ACTIVE) for 10 microseconds
-	digitalWrite(trigPin, HIGH);
-	delayMicroseconds(10);
-	digitalWrite(trigPin, LOW);
-	// Reads the echoPin, returns the sound wave travel time in microseconds
-	duration = pulseIn(echoPin, HIGH);
-	// Calculating the distance
-	distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-	// Displays the distance on the Serial Monitor
-	Serial.print("Distance: ");
-	Serial.print(distance);
-	Serial.println(" cm");
+int sampleBuffer[sampleLength];
+ISR(ADC_vect)
+{
+	sampleBuffer[sampleCount] = ADCH;//(ADCH << 8) | ADCL;
+	//Serial.println(sampleBuffer[numSamples]);
+	sampleCount++;
+}
+
+void loop()
+{
+	if (sampleCount >= sampleLength)
+	{
+
+		ADCSRA &= (0 << ADIE);
+
+		t = micros() - t0;  // calculate elapsed time
+
+	   // Serial.print("Sampling frequency: ");
+	   // Serial.print((float)sampleCount * 1000/t);
+		//Serial.println(" KHz");
+
+
+		for (int i = 0; i < sampleLength; i++)
+		{
+			Serial.println(sampleBuffer[i] * 0.0196 * 50, 6);
+			// Serial.print(",");
+		}
+		sampleCount = 0;
+		ADCSRA |= (1 << ADIE);
+		
+	}
+
 }
