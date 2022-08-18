@@ -3,4 +3,9 @@ A collection of scripts, scenarios, and config files relating to the BCI Wheelch
 
 ## Todo:
 * Update serial controller code to use accelerometer information
-* improve turning function to make better use of magnetometer
+  - Acceleration Detection for moving periods.
+  - Karman Filtering for accurate positional data collection.
+* Improve turning function to make better use of magnetometer
+  - Rewrite adafruit libraries to make better use of magnetometer registers and interrupts.
+* Analog Wheelchair Controller
+  - I give up for now.
