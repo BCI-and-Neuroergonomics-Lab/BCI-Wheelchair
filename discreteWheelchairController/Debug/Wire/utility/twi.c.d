@@ -1,6 +1,6 @@
 C:\Users\vlrus\AppData\Local\Temp\VMBuilds\discreteWheelchairController\uno\Debug\Wire\utility\twi.c.o: \
- D:\Programs\Arduino\hardware\arduino\avr\libraries\Wire\src\utility\twi.c \
- D:\Programs\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
- D:\Programs\Arduino\hardware\arduino\avr\cores\arduino/binary.h \
- D:\Programs\Arduino\hardware\arduino\avr\variants\standard/pins_arduino.h \
- D:\Programs\Arduino\hardware\arduino\avr\libraries\Wire\src\utility\twi.h
+ C:\Users\vlrus\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\libraries\Wire\src\utility\twi.c \
+ C:\Users\vlrus\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\cores\arduino/Arduino.h \
+ C:\Users\vlrus\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\cores\arduino/binary.h \
+ C:\Users\vlrus\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\variants\standard/pins_arduino.h \
+ C:\Users\vlrus\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\libraries\Wire\src\utility\twi.h

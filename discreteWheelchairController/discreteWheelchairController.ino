@@ -2,11 +2,11 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_LSM303DLH_Mag.h>
 
-int joyForward = 2;
-int joyBackward = 3;
-int joyLeft = 4;
-int joyRight = 5;
-int profile = 6;
+#define pinForward 2
+#define pinBackward 3
+#define pinLeft 4
+#define pinRight 5
+#define profile 6
 
 int charPointer = 0;
 
@@ -16,24 +16,28 @@ Adafruit_LSM303DLH_Mag_Unified mag = Adafruit_LSM303DLH_Mag_Unified(12345);
 
 sensors_event_t event;
 
-float tau = 6.283185;
+float currentHeading;
 
+float tau = 6.283185;
 
 void setup() {
 
 	// Set up serial connection to read commands from BCI application/.
-	Serial.begin(115200);
+	Serial.begin(9600);
+
 	Serial.println("BCI wheelchair controller connected");
 
 	// Configure digital output for each pin Set to input_pullup first to avoid going low immediately (and thus avoid unwarranted wheelchair movement)
 	resetPins();
 
-	if (mag.begin()) {
+	if (mag.begin()) 
+	{
 		//Enables auto gain of magnetometer
 		mag.enableAutoRange(true);
 		Serial.println("LSM303 Magnetometer initialization completed.");
 	}
-	else {
+	else 
+	{
 		Serial.println("LSM303 Magetometer initilization failed.");
 	}
 }
@@ -119,64 +123,60 @@ void readCommand() {
 }
 void resetPins() {
 	// Configure digital output for each pin Set to input_pullup first to avoid going low immediately (and thus avoid unwarranted wheelchair movement)
-	pinMode(joyForward, INPUT_PULLUP);
-	pinMode(joyForward, OUTPUT);
-	digitalWrite(joyForward, HIGH);
+	pinMode(pinForward, INPUT_PULLUP);
+	pinMode(pinForward, OUTPUT);
+	digitalWrite(pinForward, HIGH);
 
-	pinMode(joyBackward, INPUT_PULLUP);
-	pinMode(joyBackward, OUTPUT);
-	digitalWrite(joyBackward, HIGH);
+	pinMode(pinBackward, INPUT_PULLUP);
+	pinMode(pinBackward, OUTPUT);
+	digitalWrite(pinBackward, HIGH);
 
-	pinMode(joyLeft, INPUT_PULLUP);
-	pinMode(joyLeft, OUTPUT);
-	digitalWrite(joyLeft, HIGH);
+	pinMode(pinLeft, INPUT_PULLUP);
+	pinMode(pinLeft, OUTPUT);
+	digitalWrite(pinLeft, HIGH);
 
-	pinMode(joyRight, INPUT_PULLUP);
-	pinMode(joyRight, OUTPUT);
-	digitalWrite(joyRight, HIGH);
+	pinMode(pinRight, INPUT_PULLUP);
+	pinMode(pinRight, OUTPUT);
+	digitalWrite(pinRight, HIGH);
 
 	pinMode(profile, INPUT_PULLUP);
 	pinMode(profile, OUTPUT);
 	digitalWrite(profile, HIGH);
 
 }
-float getHeading() {
+
+float getHeading() 
+{
 	mag.getEvent(&event);
 
 	// Calculate the angle of the vector y,x
 	float heading = atan2(event.magnetic.y, event.magnetic.x) * (360 / tau);
 
-	constrainAngle(heading);
+	//constrainAngle(heading);
 
 	return heading;
-}
-
-float constrainAngle(float angle) {
-	angle = fmod(angle, 360);
-	if (angle < 0)
-		angle += 360;
-	return angle;
-
-}
+} 
 
 void translateTime(int time) {
 
-	int pin = joyForward;
+	int pin = pinForward;
 
 	if (time > 5000)
 	{
 		time = 5000;
 	}
-	else if (abs(time) < 500) {
+	else if (abs(time) < 500) 
+	{
 		time = 0;
 	}
-	else if (time <= -500) {
-		pin = joyBackward;
+	else if (time <= -500) 
+	{
+		pin = pinBackward;
 		time = abs(time);
 	}
 	else if (time < -5000)
 	{
-		pin = joyBackward;
+		pin = pinBackward;
 		time = 5000;
 	}
 
@@ -191,22 +191,24 @@ void translateTime(int time) {
 }
 
 void rotateTime(int time) {
-	int pin = joyRight;
+	int pin = pinRight;
 
 	if (time > 5000)
 	{
 		time = 5000;
 	}
-	else if (abs(time) < 500) {
+	else if (abs(time) < 500) 
+	{
 		time = 0;
 	}
-	else if (time <= -500) {
-		pin = joyLeft;
+	else if (time <= -500) 
+	{
+		pin = pinLeft;
 		time = abs(time);
 	}
 	else if (time < -5000)
 	{
-		pin = joyRight;
+		pin = pinRight;
 		time = 5000;
 	}
 
@@ -218,16 +220,17 @@ void rotateTime(int time) {
 	delay(time);
 	digitalWrite(pin, HIGH);
 }
-float current;
+
 
 void rotateAngle(float dTheta) {
 	int pin;
 	if (dTheta >= 0)
 	{
-		pin = joyRight;
+		pin = pinRight;
 	}
-	else {
-		pin = joyLeft;
+	else 
+	{
+		pin = pinLeft;
 	}
 
 	float initial = getHeading();
@@ -241,13 +244,15 @@ void rotateAngle(float dTheta) {
 	
 	Serial.println(target);
 
-	while (1) {
-		current = getHeading();
+	while (1) 
+	{
+		currentHeading = getHeading();
 		digitalWrite(pin, LOW);
-		Serial.print(current); Serial.print(" ");
-		if (current > (target - 1) && current < (target + 1)) {
+		Serial.print(currentHeading); Serial.print(" ");
+		if (currentHeading > (target - 1) && currentHeading < (target + 1)) 
+		{
 			Serial.println("Rotation Completed");
-			Serial.println(current);
+			Serial.println(currentHeading);
 			break;
 		}
 	}
