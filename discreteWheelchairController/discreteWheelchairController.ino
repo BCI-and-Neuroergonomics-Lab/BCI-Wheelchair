@@ -8,6 +8,10 @@
 #define pinRight 5
 #define profile 6
 
+#define motorSpoolDelay 500
+#define maximumMovementTime 10000;
+
+
 int charPointer = 0;
 
 char inputBuffer[10] = "";
@@ -158,26 +162,28 @@ float getHeading()
 } 
 
 void translateTime(int time) {
-
+	//Activates wheelchair to move for specified time. 
+	//If time is negative wheelchair moves backwards for abs(time)
+	//If abs(time) is < 500 movement is discounted as the motors will not spool up quickly enough.
 	int pin = pinForward;
 
-	if (time > 5000)
+	if (time > maximumMovementTime)
 	{
-		time = 5000;
+		time = maximumMovementTime;
 	}
-	else if (abs(time) < 500) 
+	else if (abs(time) < motorSpoolDelay)
 	{
 		time = 0;
 	}
-	else if (time <= -500) 
+	else if (time <= -motorSpoolDelay)
 	{
 		pin = pinBackward;
 		time = abs(time);
 	}
-	else if (time < -5000)
+	else if (time < -maximumMovementTime)
 	{
 		pin = pinBackward;
-		time = 5000;
+		time = maximumMovementTime;
 	}
 
 	Serial.print("Moving the wheelchair for: ");
@@ -190,26 +196,29 @@ void translateTime(int time) {
 	digitalWrite(pin, HIGH);
 }
 
-void rotateTime(int time) {
+void rotateTime(int time) 
+{
+	//Activates wheelchair rotate for specified time. 
+	//If time is negative wheelchair rotate left for abs(time)
+	//If abs(time) is < 500 movement is discounted as the motors will not spool up quickly enough.
 	int pin = pinRight;
-
-	if (time > 5000)
+	if (time > maximumMovementTime)
 	{
-		time = 5000;
+		time = maximumMovementTime;
 	}
-	else if (abs(time) < 500) 
+	else if (abs(time) < motorSpoolDelay)
 	{
 		time = 0;
 	}
-	else if (time <= -500) 
+	else if (time <= -motorSpoolDelay)
 	{
 		pin = pinLeft;
 		time = abs(time);
 	}
-	else if (time < -5000)
+	else if (time < -maximumMovementTime)
 	{
 		pin = pinRight;
-		time = 5000;
+		time = maximumMovementTime;
 	}
 
 	Serial.print("Rotating wheelchair for: ");
@@ -222,7 +231,10 @@ void rotateTime(int time) {
 }
 
 
-void rotateAngle(float dTheta) {
+void rotateAngle(float dTheta) 
+{
+	//Activates wheelchair to rotate to specified angle
+	//If  angle is negative wheelchair rotates leftward for specified number of degrees
 	int pin;
 	if (dTheta >= 0)
 	{
