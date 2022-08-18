@@ -9,7 +9,7 @@
 #define profile 6
 
 #define motorSpoolDelay 500
-#define maximumMovementTime 10000;
+#define maximumMovementTime 10000
 
 
 int charPointer = 0;
